@@ -32,7 +32,7 @@ class MultiplePlotMaker:
                 sns.countplot(x=self.df[col], ax=axes[i])
                 axes[i].xaxis.set_major_locator(ticker.MaxNLocator(integer=True))  # Ensure ticks are integers
                 axes[i].xaxis.set_major_locator(ticker.MaxNLocator(nbins=10))  # Adjust tick frequency
-                axes[i].tick_params(axis='x', rotation=45)  # Rotate x-axis labels if needed
+                axes[i].tick_params(axis='x', rotation=45)
             elif col in ['Pregnancies', 'Outcome']:
                 sns.countplot(x=self.df[col], ax=axes[i])
             else:  # Use histogram for continuous variables
@@ -52,7 +52,7 @@ class MultiplePlotMaker:
 
     def plot_multiple_boxplots(self):
         column_names = self.get_column_names()
-        column_names.pop(-1)  # Assuming the last column is not to be plotted
+        column_names.pop(-1) 
 
         # Create boxplots to identify outliers
         fig, axes = plt.subplots(nrows=3, ncols=3, figsize=(15, 10))
@@ -77,7 +77,7 @@ class MultiplePlotMaker:
     
     def plot_multiple_side_by_side_boxplots(self):
         column_names = self.get_column_names()
-        target_variable_name = column_names.pop(-1)  # Assuming the last column is the target
+        target_variable_name = column_names.pop(-1)  
 
         # Create boxplots to identify outliers
         fig, axes = plt.subplots(nrows=3, ncols=3, figsize=(15, 10))
@@ -100,7 +100,7 @@ class MultiplePlotMaker:
 
     def plot_multiple_overlapping_hist(self):
         column_names = self.get_column_names()
-        target_variable_name = column_names.pop(-1)  # Assuming the last column is the target
+        target_variable_name = column_names.pop(-1)  
 
         # Create subplots
         fig, axes = plt.subplots(nrows=3, ncols=3, figsize=(15, 10))
@@ -138,7 +138,7 @@ class StatAnalysisTools:
     def perform_t_test(self):
 
         target_column_name = self.df.columns[-1] 
-        # Assuming df is your DataFrame and 'Outcome' is the target variable
+
         for col in self.df.columns[:-1]:  # Exclude the target column
             group1 = self.df[self.df[target_column_name] == 0][col]
             group2 = self.df[self.df[target_column_name] == 1][col]
@@ -159,10 +159,10 @@ class ModelEvaluation:
     def __init__(self) -> None:
         pass
     
-    def evaluate_classifier(self, X, y, trained_model, scaler_name, selected_features, csv_file_path):
+    def evaluate_classifier(self, X, y, trained_model, model_name, scaler_name, selected_features, csv_file_path):
         X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.2, random_state=42)
 
-        # Assuming you have a separate test set
+        
         y_pred = trained_model.predict(X_test)
         y_pred_proba = trained_model.predict_proba(X_test)[:, 1]  # For ROC-AUC
 
@@ -207,8 +207,8 @@ class ModelEvaluation:
             writer = csv.writer(csvfile)
             if not file_exists:
                 # Write the header if the file doesn't exist
-                writer.writerow(['scaler_name', 'selected_features', 'accuracy', 'precision', 'recall', 'f1_score', 'roc_auc'])
+                writer.writerow(['model_name', 'scaler_name', 'selected_features', 'accuracy', 'precision', 'recall', 'f1_score', 'roc_auc'])
             
             # Write the data
-            writer.writerow([scaler_name, selected_features, accuracy, precision, recall, f1, roc_auc])
+            writer.writerow([model_name, scaler_name, selected_features, accuracy, precision, recall, f1, roc_auc])
 
