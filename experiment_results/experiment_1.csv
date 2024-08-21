@@ -1,0 +1,13 @@
+Model,Scaler,Features,Accuracy,Precision,Recall,F1-Score,ROC-AUC
+KNN,Standard Scaler,All Features,0.754,0.542,0.722,0.619,0.818
+RF,Standard Scaler,All Features,1.000,1.000,1.000,1.000,1.000
+LogR,Standard Scaler,All Features,0.738,0.522,0.667,0.585,0.787
+KNN,Robust Scaler,All Features,1.000,1.000,1.000,1.000,1.000
+RF,Robust Scaler,All Features,0.954,1.000,0.833,0.909,0.985
+LogR,Robust Scaler,All Features,0.738,0.522,0.667,0.585,0.792
+KNN,Standard Scaler,Without 2 Least Important,0.938,0.850,0.944,0.895,0.986
+RF,Standard Scaler,Without 2 Least Important,0.954,0.941,0.889,0.914,0.985
+LogR,Standard Scaler,Without 2 Least Important,0.723,0.500,0.667,0.571,0.788
+KNN,Robust Scaler,Without 2 Least Important,1.000,1.000,1.000,1.000,1.000
+RF,Robust Scaler,Without 2 Least Important,0.985,1.000,0.944,0.971,0.999
+LogR,Robust Scaler,Without 2 Least Important,0.723,0.500,0.667,0.571,0.767
