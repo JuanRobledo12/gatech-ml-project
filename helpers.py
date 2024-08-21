@@ -1,4 +1,3 @@
-import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import seaborn as sns
@@ -6,6 +5,8 @@ from scipy.stats import ttest_ind
 from scipy.stats import pointbiserialr
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, roc_auc_score, roc_curve
+import csv
+import os
 
 class MultiplePlotMaker:
 
@@ -158,13 +159,12 @@ class ModelEvaluation:
     def __init__(self) -> None:
         pass
     
-    def evaluate_classifier(self, X, y, trained_model):
-
+    def evaluate_classifier(self, X, y, trained_model, scaler_name, selected_features, csv_file_path):
         X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.2, random_state=42)
 
         # Assuming you have a separate test set
         y_pred = trained_model.predict(X_test)
-        y_pred_proba = trained_model.predict_proba(X_test)[:, 1]  # For ROC-AUC if needed
+        y_pred_proba = trained_model.predict_proba(X_test)[:, 1]  # For ROC-AUC
 
         # Calculate various metrics
         accuracy = accuracy_score(y_test, y_pred)
@@ -200,3 +200,15 @@ class ModelEvaluation:
         plt.title('Receiver Operating Characteristic (ROC) Curve')
         plt.legend()
         plt.show()
+
+        # Append results to CSV
+        file_exists = os.path.isfile(csv_file_path)
+        with open(csv_file_path, 'a', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            if not file_exists:
+                # Write the header if the file doesn't exist
+                writer.writerow(['scaler_name', 'selected_features', 'accuracy', 'precision', 'recall', 'f1_score', 'roc_auc'])
+            
+            # Write the data
+            writer.writerow([scaler_name, selected_features, accuracy, precision, recall, f1, roc_auc])
+
