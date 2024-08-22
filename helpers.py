@@ -159,9 +159,7 @@ class ModelEvaluation:
     def __init__(self) -> None:
         pass
     
-    def evaluate_classifier(self, X, y, trained_model, model_name, scaler_name, selected_features, csv_file_path):
-        X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.2, random_state=42)
-
+    def evaluate_classifier(self, X_test, y_test, trained_model, model_name, scaler_name, selected_features, csv_file_path):
         
         y_pred = trained_model.predict(X_test)
         y_pred_proba = trained_model.predict_proba(X_test)[:, 1]  # For ROC-AUC
