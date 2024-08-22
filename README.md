@@ -27,33 +27,70 @@ The dataset includes multiple medical predictor variables along with a single ta
 
 ## Results and Conclusion
 
-The models trained on the `diabetes_v2.csv` version, where missing values were imputed, demonstrated better overall performance, as shown in the table below. By imputing missing values, we were able to retain 665 out of 768 entries, eliminating 103 records deemed outliers. Retaining the majority of the data helped the models generalize better, resulting in improved performance metrics.
+### Results
 
-**Table: Experiment 2 Results (Imputed Missing Values)**
+I trained and evaluated the models on two different versions of the dataset: `diabetes_v1.csv`, which had all missing values eliminated, and `diabetes_v2.csv`, where missing values were imputed.
 
-| Model Name     | Scaler Name       | Selected Features       | Accuracy | Precision | Recall  | F1-Score | ROC AUC  |
-|----------------|-------------------|-------------------------|----------|-----------|---------|----------|----------|
-| KNN            | RobustScaler      | Without BP and DPF       | 1.000000 | 1.000000  | 1.000000| 1.000000 | 1.000000 |
-| KNN            | StandardScaler    | Without BP and DPF       | 1.000000 | 1.000000  | 1.000000| 1.000000 | 1.000000 |
-| RandomForest   | RobustScaler      | Without BP and DPF       | 0.977444 | 0.933333  | 1.000000| 0.965517 | 1.000000 |
-| RandomForest   | StandardScaler    | Without BP and DPF       | 0.977444 | 0.953488  | 0.976190| 0.964706 | 0.996860 |
-| RandomForest   | StandardScaler    | All Features             | 0.969925 | 0.913043  | 1.000000| 0.954545 | 0.997645 |
-| RandomForest   | RobustScaler      | All Features             | 0.969925 | 0.952381  | 0.952381| 0.952381 | 0.996075 |
-| KNN            | RobustScaler      | All Features             | 0.812030 | 0.644068  | 0.904762| 0.752475 | 0.936028 |
-| KNN            | StandardScaler    | All Features             | 0.804511 | 0.637931  | 0.880952| 0.740000 | 0.920591 |
-| LogisticReg    | StandardScaler    | All Features             | 0.766917 | 0.600000  | 0.785714| 0.680412 | 0.859759 |
-| LogisticReg    | RobustScaler      | Without BP and DPF       | 0.766917 | 0.600000  | 0.785714| 0.680412 | 0.872318 |
-| LogisticReg    | StandardScaler    | Without BP and DPF       | 0.759398 | 0.586207  | 0.809524| 0.680000 | 0.869440 |
-| LogisticReg    | RobustScaler      | All Features             | 0.759398 | 0.589286  | 0.785714| 0.673469 | 0.857666 |
+#### `diabetes_v1.csv` Results
 
-### Key Takeaways
+The `diabetes_v1.csv` dataset, with 321 entries, yielded the following performance:
 
-- **Best Performing Models**: The KNN models with RobustScaler and StandardScaler, excluding BP and DPF features, achieved perfect scores across all metrics, indicating potential overfitting. However, the Random Forest models also performed exceptionally well, with robust performance and high ROC-AUC values, suggesting they generalized better than other models.
-- **Feature Selection Impact**: Excluding Blood Pressure (BP) and Diabetes Pedigree Function (DPF) slightly improved performance for both KNN and Random Forest models, highlighting the importance of feature selection in improving model accuracy.
-- **Overfitting Concerns**: The perfect scores observed in some KNN models suggest overfitting, especially since these models performed too well on the training data, which may not reflect real-world scenarios. Further validation on unseen data is necessary to confirm these results.
+- **Random Forest (RobustScaler, all features):** 
+  - Accuracy: 81.5%
+  - Precision: 66.7%
+  - Recall: 66.7%
+  - F1-Score: 66.7%
+  - ROC AUC: 75.9%
 
-The results suggest that imputing missing values and carefully selecting features can significantly enhance model performance, though caution is advised to avoid overfitting. Future work could focus on validating these models on an external dataset and exploring additional feature engineering techniques to further improve generalization.
+- **Random Forest (StandardScaler, without BP and DPF):**
+  - Accuracy: 80.0%
+  - Precision: 63.2%
+  - Recall: 66.7%
+  - F1-Score: 64.9%
+  - ROC AUC: 77.1%
 
-### Random Forest Without Blood Pressure, Diabetes Pedigree Function and with Standard Scalar.
-![confusion_matrix](img/confusion_matrix.png)
-![ROC-AUC](img/roc_auc_curve.png)
+- **Logistic Regression (RobustScaler, all features):**
+  - Accuracy: 78.5%
+  - Precision: 60.0%
+  - Recall: 66.7%
+  - F1-Score: 63.2%
+  - ROC AUC: 79.8%
+
+Overall, models trained on the `diabetes_v1.csv` dataset had moderate performance. The Random Forest models, particularly those with all features, performed the best in terms of accuracy, with one achieving an accuracy of 81.5%. However, the F1-scores and ROC AUC scores suggest room for improvement in balancing precision and recall.
+
+#### `diabetes_v2.csv` Results
+
+The `diabetes_v2.csv` dataset, with 665 entries, yielded the following performance:
+
+- **Random Forest (StandardScaler, all features):**
+  - Accuracy: 80.5%
+  - Precision: 66.7%
+  - Recall: 76.2%
+  - F1-Score: 71.1%
+  - ROC AUC: 88.2%
+
+- **K-Nearest Neighbors (StandardScaler, all features):**
+  - Accuracy: 75.9%
+  - Precision: 58.1%
+  - Recall: 85.7%
+  - F1-Score: 69.2%
+  - ROC AUC: 85.7%
+
+- **Logistic Regression (RobustScaler, all features):**
+  - Accuracy: 76.7%
+  - Precision: 60.0%
+  - Recall: 78.6%
+  - F1-Score: 68.0%
+  - ROC AUC: 84.1%
+
+The models trained on the `diabetes_v2.csv` dataset generally performed better than those trained on `diabetes_v1.csv`. The Random Forest model with all features scaled by StandardScaler achieved the best performance, with an accuracy of 80.5% and a high ROC AUC score of 88.2%. The improved recall and ROC AUC scores across models suggest that imputation of missing values helped in retaining more data, leading to better generalization.
+
+### Conclusion
+
+The results highlight the importance of handling missing data appropriately. The models trained on the `diabetes_v2.csv` dataset, where missing values were imputed, consistently outperformed those trained on the `diabetes_v1.csv` dataset with missing values removed. This suggests that imputing missing data allowed the models to leverage more information, improving their predictive power.
+
+Among the models, the Random Forest classifier with all features and StandardScaler preprocessing emerged as the best-performing model. It achieved the highest accuracy (80.5%) and ROC AUC score (88.2%), indicating a good balance between precision and recall. This model is likely the most robust choice for predicting diabetes based on this dataset.
+
+The K-Nearest Neighbors and Logistic Regression models also showed competitive performance, particularly in recall and ROC AUC, making them viable alternatives depending on the specific use case. The higher recall in these models could be beneficial in scenarios where identifying as many true positive cases as possible is crucial.
+
+Overall, this project demonstrates the value of thorough data preprocessing and the importance of experimenting with multiple models to identify the best-performing approach.
